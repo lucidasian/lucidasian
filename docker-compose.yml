@@ -5,6 +5,9 @@ services:
     container_name: server
     restart: always
     command: npm start
+    volumes:
+      - ./server/index.js:/server/index.js
+      - ./server/server.js:/server/server.js
     ports:
       - "10101:10101"
     links:
