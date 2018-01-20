@@ -1,0 +1,18 @@
+version: '2'
+services:
+  server:
+    build: ./server
+    container_name: server
+    restart: always
+    command: npm start
+    ports:
+      - "10101:10101"
+    links:
+      - database
+  database:
+    container_name: database
+    image: mongo
+    volumes:
+      - ./server/data:/data/db
+    ports:
+      - "27017:27017"
