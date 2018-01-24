@@ -1,3 +1,6 @@
+# Configs
+./server/config.js
+
 # Logs
 logs
 *.log
