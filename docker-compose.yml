@@ -6,8 +6,12 @@ services:
     restart: always
     command: npm start
     volumes:
+      - ./server/config.js:/server/config.js
       - ./server/index.js:/server/index.js
       - ./server/server.js:/server/server.js
+      - ./server/model:/server/model
+      - ./server/graphql:/server/graphql
+      - ./server/src:/server/src
     ports:
       - "10101:10101"
     links:
