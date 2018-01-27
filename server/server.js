@@ -45,7 +45,8 @@ app.use('/graphql', bodyParser.json(), graphqlExpress(req => ({
   context: { 
     DB,
     IP_ADDRESS: req.header('x-forwarded-for') || req.connection.remoteAddress,
-    UUID: req.cookies.UUID
+    UUID: req.cookies.UUID,
+    user: req.user
   }
 })))
 

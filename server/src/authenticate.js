@@ -16,7 +16,10 @@ export default ({ app, DB }) => {
   app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }),
     function(req, res) {
       // Successful authentication, redirect home.
-      const token = jwt.sign(req.user, config.jwtSecret, {
+      const token = jwt.sign({
+        socialID: req.user.socialID,
+        socialType: req.user.socialType
+      }, config.jwtSecret, {
           expiresIn: '1d'
       })
       res.cookie('token', token)
@@ -27,7 +30,10 @@ export default ({ app, DB }) => {
   app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }),
     function(req, res) {
       // Successful authentication, redirect home.
-      const token = jwt.sign(req.user, config.jwtSecret, {
+      const token = jwt.sign({
+        socialID: req.user.socialID,
+        socialType: req.user.socialType
+      }, config.jwtSecret, {
         expiresIn: '1d'
       })
       res.cookie('token', token)
@@ -38,7 +44,10 @@ export default ({ app, DB }) => {
   app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/login' }),
     function(req, res) {
     // Successful authentication, redirect home.
-    const token = jwt.sign(req.user, config.jwtSecret, {
+    const token = jwt.sign({
+      socialID: req.user.socialID,
+      socialType: req.user.socialType
+    }, config.jwtSecret, {
       expiresIn: '1d'
     })
     res.cookie('token', token)
@@ -67,6 +76,11 @@ export default ({ app, DB }) => {
       }, {
         // update
         token: accessToken,
+        $addToSet: {
+          roles: {
+            name: 'member'
+          }
+        },
         $push: {
           loginLogs: {
             uuid: req.cookies.UUID,
@@ -79,10 +93,12 @@ export default ({ app, DB }) => {
         new: true, // return modified document
         upsert: true // create the object if it doesn't exist
       })
+
       return done(null, {
         socialID: newUser.socialID,
         socialType: newUser.socialType,
-        token: newUser.token
+        token: newUser.token,
+        roles: newUser.roles
       })
     })
   }))
@@ -101,6 +117,11 @@ export default ({ app, DB }) => {
       }, {
         // update
         token: accessToken,
+        $addToSet: {
+          roles: {
+            name: 'member'
+          }
+        },
         $push: {
           loginLogs: {
             uuid: req.cookies.UUID,
@@ -117,6 +138,7 @@ export default ({ app, DB }) => {
         socialID: newUser.socialID,
         socialType: newUser.socialType,
         token: newUser.token,
+        roles: newUser.roles
       })
     })
   }))
@@ -135,6 +157,11 @@ export default ({ app, DB }) => {
       }, {
         // update
         token: token,
+        $addToSet: {
+          roles: {
+            name: 'member'
+          }
+        },
         $push: {
           loginLogs: {
             uuid: req.cookies.UUID,
@@ -151,6 +178,7 @@ export default ({ app, DB }) => {
         socialID: newUser.socialID,
         socialType: newUser.socialType,
         token: newUser.token,
+        roles: newUser.roles
       })
     })
   }))
