@@ -6,19 +6,22 @@ export default `
     loginAt: String
   }
   type UserRole {
-    name: String!
+    admin: Boolean!
+    member: Boolean!
+    staff: Boolean!
   }
   type User {
     socialID: String!
     socialType: String!
-    token: String
-    roles: [UserRole]
+    roles: UserRole
     loginLogs: [LoginLog]
   }
   type Query {
     User(socialID: String!, socialType: String!): User!
+    loginUser: User!
   }
   type Mutation {
-    signUp(socialID: String!, socialType: String!): User!
+    addStaffRole(socialID: String!, socialType: String!): User
+    removeStaffRole(socialID: String!, socialType: String!): User
   }
 `

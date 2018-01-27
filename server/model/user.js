@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema({
   socialType: { type: String, enum: ['facebook', 'google', 'twitter'], required: true },
   token: { type: String },
   roles: {
-    name: { type: String, enum: ['admin', 'staff'], unique: true, sparse: true }
+    name: { type: String, enum: ['admin', 'member', 'staff'], required: true }
   },
   loginLogs: {
     uuid: { type: String },
