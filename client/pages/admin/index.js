@@ -1,9 +1,13 @@
 import React, { Component } from 'react'
+import Navbar from '../../components/navbar/navbar'
 
 class AdminHome extends Component {
     render() {
         return (
-            <h1>AdminHome</h1>
+            <div>
+                <Navbar />
+                <h1>AdminHome</h1>
+            </div>
         )
     }
 }
