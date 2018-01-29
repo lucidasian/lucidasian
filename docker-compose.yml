@@ -23,3 +23,16 @@ services:
       - ./server/data:/data/db
     ports:
       - "27017:27017"
+  client:
+    build: ./client
+    container_name: client
+    restart: always
+    command: npm start
+    volumes:
+      - ./client/config/config.js:/client/config/config.js
+      - ./client/server.js:/client/server.js
+      - ./client/components/:/client/components/
+      - ./client/pages/:/client/pages/
+      - ./client/static/:/client/static/
+    ports:
+      - "11111:11111"
