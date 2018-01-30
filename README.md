@@ -6,14 +6,37 @@ lucidasian web app project
 ## Authenticate
 Authenticate is need to access via RESTful API GET method, there are three choice of authenticate options.
 
-1. Facebook (endpoint: /auth/facebook, port 10101)
-2. Google (endpoint: /auth/google, port 10101)
-3. Twitter (endpoint: /auth/twitter, port 10101)
+1. Facebook (endpoint: /auth/facebook, port: 10101)
+2. Google (endpoint: /auth/google, port: 10101)
+3. Twitter (endpoint: /auth/twitter, port: 10101)
+4. Sign Out (endpoint: /auth/signout, port: 10101)
 
 If the authenticate is successful user information will automatically store in our database.
 
 ## GraphQL Schema
 ```
+type Article {
+    id: ID
+    title: String!
+    content: String
+    publish: Boolean
+    positions: ArticlePosition
+    tags: [String]
+    createdBy: String
+    updatedBy: String
+    createdAt: String
+    updatedAt: String 
+  }
+  type Articles {
+    cover: [Article]
+    highlights: [Article]
+    trips: [Article]
+  }
+  type ArticlePosition {
+    cover: Boolean!
+    highlights: Boolean!
+    trips: Boolean!
+  }
   type LoginLog {
     uuid: String
     token: String
@@ -29,116 +52,35 @@ If the authenticate is successful user information will automatically store in o
     socialID: String!
     socialType: String!
     roles: UserRole
+    displayName: String
     loginLogs: [LoginLog]
   }
+  type Users {
+    admin: [User]
+    member: [User]
+    staff: [User]
+  }
   type Query {
-    User(socialID: String!, socialType: String!): User!
+    articles: Articles
     loginUser: User!
+    user(socialID: String!, socialType: String!): User!
+    users: Users
   }
   type Mutation {
     addStaffRole(socialID: String!, socialType: String!): User
     removeStaffRole(socialID: String!, socialType: String!): User
+    createArticle(title: String!, content: String!, publish: Boolean = false, positions: [String], tags: [String]): Article
+    modifyArticle(articleID: ID!, title: String!, content: String!, publish: Boolean = false, positions: [String], tags: [String]): Article
   }
 ```
 Exclamation mark(!) represents the require field.
 
-### GET LOGIN USER
-```
-  loginUser {
-    socialID
-    socialType
-  }
-```
-### GET LOGIN USER WITH ROLES
-```
-  loginUser {
-    socialID // required
-    socialType // required
-    roles {
-      admin
-      member
-      staff
-    }
-  }
-```
-### LOGIN USER WITH LOGIN LOGS (admin role is required) 
-Return loginLogs null in 1 case
-1. commander hasn't admin role
-```
-  loginUser {
-    socialID // required
-    socialType // required
-    loginLogs {
-      uuid: String
-      token: String
-      ipAddress: String
-      loginAt: String  
-    }
-  }
-```
-### LOGIN USER WITH ROLES AND LOGIN LOGS (admin role is required)
-Return loginLogs null in 1 case
-1. commander hasn't admin role
-```
-  loginUser {
-    socialID // required
-    socialType // required
-    roles {
-      admin
-      member
-      staff
-    }
-    loginLogs {
-      uuid: String
-      token: String
-      ipAddress: String
-      loginAt: String  
-    }
-  }
-```
-### ADD STAFF ROLE (admin role is required)
-Return null in 2 case
-1. socialID and socialType don't exist in database
-2. commander hasn't admin role
-```
-  mutation {
-    addStaffRole(socialID: String!, socialType: String!) {
-      socialID // required
-      socialType // required
-      roles {
-        admin
-        member
-        staff
-      }
-      loginLogs {
-        uuid: String
-        token: String
-        ipAddress: String
-        loginAt: String  
-      }
-    }
-  }
-```
-### REMOVE STAFF ROLE (admin role is required)
-Return null in 2 case
-1. socialID and socialType don't exist in database
-2. commander hasn't admin role
-```
-  mutation {
-    removeStaffRole(socialID: String!, socialType: String!) {
-      socialID // required
-      socialType // required
-      roles {
-        admin
-        member
-        staff
-      }
-      loginLogs {
-        uuid: String
-        token: String
-        ipAddress: String
-        loginAt: String  
-      }
-    }
-  }
-```
+### Admin role is required for these field
+Query > Users
+Mutation > addStaffRole
+Mutation > removeStaffRole
+User > loginLogs
+
+### Staff role is required for these field
+Mutation > createArticle
+Mutation > modifyArticle
