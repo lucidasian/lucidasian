@@ -76,11 +76,11 @@ type Article {
 Exclamation mark(!) represents the require field.
 
 ### Admin role is required for these field
-Query > Users
-Mutation > addStaffRole
-Mutation > removeStaffRole
-User > loginLogs
+1. Query > Users
+2. Mutation > addStaffRole
+3. Mutation > removeStaffRole
+4. User > loginLogs
 
 ### Staff role is required for these field
-Mutation > createArticle
-Mutation > modifyArticle
+1. Mutation > createArticle
+2. Mutation > modifyArticle
