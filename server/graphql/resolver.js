@@ -142,7 +142,7 @@ export default {
       }
     },
     async createArticle (root, args, { DB, user }) {
-      // admin role is required to use this method
+      // staff role is required to use this method
       if (user.roles.staff) {
         const newArticle = await DB.Article.createArticle(
           user, 
@@ -168,7 +168,7 @@ export default {
       }
     },
     async modifyArticle (root, args, { DB, user }) {
-      // admin role is required to use this method
+      // staff role is required to use this method
       if (user.roles.staff) {
         let modifyArticle = await DB.Article.modifyArticle(
           user, 

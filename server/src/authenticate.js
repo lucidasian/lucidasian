@@ -8,6 +8,14 @@ import TwitterStrategy from 'passport-twitter'
 export default ({ app, DB }) => {
   app.use(passport.initialize())
   app.use(passport.session())
+
+  app.get('/auth/signout', (req, res, next) => {
+    res.clearCookie('token')
+    req.session.destroy()
+
+    res.redirect(`http://${req.hostname}:${config.clientPort}`)
+    next()
+  })
   
   app.get('/auth/facebook', passport.authenticate('facebook'))
   app.get('/auth/google', passport.authenticate('google', { scope: ['profile'] }));
