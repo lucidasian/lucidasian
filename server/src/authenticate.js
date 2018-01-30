@@ -69,36 +69,21 @@ export default ({ app, DB }) => {
     passReqToCallback: true
   }, function(req, accessToken, refreshToken, profile, done) {
     process.nextTick(async function () {
-      const newUser = await DB.User.findOneAndUpdate({
-        // conditions
-        socialID: profile.id,
-        socialType: 'facebook'
-      }, {
-        // update
-        token: accessToken,
-        $addToSet: {
-          roles: {
-            name: 'member'
-          }
-        },
-        $push: {
-          loginLogs: {
-            uuid: req.cookies.UUID,
-            token: accessToken,
-            ipAddress: req.header('x-forwarded-for') || req.connection.remoteAddress,
-            loginAt: Date.now()
-          }
-        }
-      }, {
-        new: true, // return modified document
-        upsert: true // create the object if it doesn't exist
-      })
+      const user = await DB.User.signIn(
+        accessToken,
+        profile.id,
+        'facebook', 
+        profile.displayName,
+        req.cookies.UUID,
+        req.header('x-forwarded-for') || req.connection.remoteAddress
+      )
 
       return done(null, {
-        socialID: newUser.socialID,
-        socialType: newUser.socialType,
-        token: newUser.token,
-        roles: newUser.roles
+        socialID: user.socialID,
+        socialType: user.socialType,
+        token: user.token,
+        roles: user.roles,
+        displayName: user.displayName
       })
     })
   }))
@@ -110,35 +95,21 @@ export default ({ app, DB }) => {
     passReqToCallback: true
   }, function(req, accessToken, refreshToken, profile, done) {
     process.nextTick(async function () {
-      const newUser = await DB.User.findOneAndUpdate({
-        // conditions
-        socialID: profile.id,
-        socialType: 'google'
-      }, {
-        // update
-        token: accessToken,
-        $addToSet: {
-          roles: {
-            name: 'member'
-          }
-        },
-        $push: {
-          loginLogs: {
-            uuid: req.cookies.UUID,
-            token: accessToken,
-            ipAddress: req.header('x-forwarded-for') || req.connection.remoteAddress,
-            loginAt: Date.now()
-          }
-        }
-      }, {
-        new: true, // return modified document
-        upsert: true // create the object if it doesn't exist
-      })
+      const user = await DB.User.signIn(
+        accessToken,
+        profile.id,
+        'google',
+        profile.displayName,
+        req.cookies.UUID,
+        req.header('x-forwarded-for') || req.connection.remoteAddress
+      )
+
       return done(null, {
-        socialID: newUser.socialID,
-        socialType: newUser.socialType,
-        token: newUser.token,
-        roles: newUser.roles
+        socialID: user.socialID,
+        socialType: user.socialType,
+        token: user.token,
+        roles: user.roles,
+        displayName: user.displayName
       })
     })
   }))
@@ -150,35 +121,21 @@ export default ({ app, DB }) => {
     passReqToCallback: true
   }, function(req, token, tokenSecret, profile, done) {
     process.nextTick(async function () {
-      const newUser = await DB.User.findOneAndUpdate({
-        // conditions
-        socialID: profile.id,
-        socialType: 'twitter'
-      }, {
-        // update
-        token: token,
-        $addToSet: {
-          roles: {
-            name: 'member'
-          }
-        },
-        $push: {
-          loginLogs: {
-            uuid: req.cookies.UUID,
-            token: token,
-            ipAddress: req.header('x-forwarded-for') || req.connection.remoteAddress,
-            loginAt: Date.now()
-          }
-        }
-      }, {
-        new: true, // return modified document
-        upsert: true // create the object if it doesn't exist
-      })
+      const user = await DB.User.signIn(
+        token,
+        profile.id,
+        'twitter',
+        profile._json.name,
+        req.cookies.UUID,
+        req.header('x-forwarded-for') || req.connection.remoteAddress
+      )
+      
       return done(null, {
-        socialID: newUser.socialID,
-        socialType: newUser.socialType,
-        token: newUser.token,
-        roles: newUser.roles
+        socialID: user.socialID,
+        socialType: user.socialType,
+        token: user.token,
+        roles: user.roles,
+        displayName: user.displayName
       })
     })
   }))
