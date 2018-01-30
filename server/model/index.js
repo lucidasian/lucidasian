@@ -1,7 +1,10 @@
-import { User } from './user'
+// import { User } from './user'
+import * as Article from './article'
+import * as User  from './user'
 
 export default {
-  User: User
+  User: User,
+  Article: Article,
 }
 
 // module.exports = DB

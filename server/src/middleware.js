@@ -1,6 +1,5 @@
 import config from '../config'
 import DB from '../model'
-import { rolesCasting } from './global_func'
 import jwt from 'jsonwebtoken'
 import uuidv1 from 'uuid/v1'
 
@@ -23,18 +22,15 @@ export const verifyJwt = async (req, res, next) => {
       // verify token to get socialID and socialType
       let user = await jwt.verify(token, config.jwtSecret)
       // get user from DB
-      user = await DB.User.findOne({
-        socialID: user.socialID,
-        socialType: user.socialType
-      }) 
+      user = await DB.User.getUser(user.socialID, user.socialType)
       // cast roles from array objects to an object
-      const roles = await rolesCasting(user.roles)
       // set user session
       req.user = {
         socialID: user.socialID,
         socialType: user.socialType,
         token: user.token,
-        roles: roles
+        roles: user.roles,
+        displayName: user.displayName
       }
     } catch (err) {
       console.log(err)
