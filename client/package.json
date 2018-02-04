@@ -28,6 +28,8 @@
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
-    "styled-jsx": "^2.2.1"
+    "styled-jsx": "^2.2.1",
+    "apollo-client": "^2.2.2",
+    "graphql-tag": "^2.6.1"
   }
 }

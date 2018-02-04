@@ -13,16 +13,16 @@ class Cover extends Component {
                 <ul className="uk-slideshow-items" uk-height-viewport="offset-top: 0; offset-bottom: 0">
                     <li>
                         <img src="/static/img/demopic1.jpeg" alt="Slide" uk-cover='' />
-                        <div className="uk-position-center-left uk-position-large uk-text-left uk-light">
-                            <h1 className="uk-margin-remove-vertical uk-margin-large-left cover-title-text">Some interesting message</h1>
-                            <h4 className="uk-margin-remove-vertical uk-margin-large-left">Find your Lucidasian trip ></h4>
+                        <div className="uk-container uk-container-large uk-position-center-left uk-position-large uk-text-left uk-light">
+                            <h1 className="uk-margin-remove-vertical cover-title-text">Some interesting message</h1>
+                            <h4 className="uk-margin-remove-vertical">Find your Lucidasian trip ></h4>
                         </div>
                     </li>
                     <li>
                         <img src="/static/img/demopic2.jpeg" alt="Slide" uk-cover='' />
-                        <div className="uk-position-center-left uk-position-large uk-text-left uk-light">
-                            <h1 className="uk-margin-remove-vertical uk-margin-large-left cover-title-text">Some interesting article title</h1>
-                            <h4 className="uk-margin-remove-vertical uk-margin-large-left">Read more</h4>
+                        <div className="uk-container uk-container-large uk-position-center-left uk-position-large uk-text-left uk-light">
+                            <h1 className="uk-margin-remove-vertical cover-title-text">Some interesting article title</h1>
+                            <h4 className="uk-margin-remove-vertical">Read more</h4>
                         </div>
                     </li>
                 </ul>

@@ -9,7 +9,7 @@ import ToggleHomeMenu from './toggleHomeMenu'
 class Navbar extends Component {
     render() {
         return (
-            <div className="uk-position-top uk-container uk-container-large" >
+            <div className="uk-position-top uk-container  uk-container-large" >
                 <nav className="uk-navbar-container uk-navbar-transparent" uk-navbar="" >
                     {/* logo on the left */}
                     <div className="uk-navbar-left">
@@ -24,7 +24,7 @@ class Navbar extends Component {
                         <a href="#" className="uk-navbar-item nb-link">Highlights</a>
                         <a href="#" className="uk-navbar-item nb-link">Find Trip</a>
                         <a href="#" className="uk-navbar-item nb-link">Booking</a>
-                        <a href="#" id="signinButton" className="nb-link">Sign In</a>
+                        <button id="signinButton" className="nb-link" uk-toggle="target: #signin">Sign In</button>
                     </div>
                 </nav>
                 {/* Off-canvas Menu */}
@@ -49,7 +49,8 @@ class Navbar extends Component {
                         border-radius: 20px;
                         padding: 5px;
                         padding-left: 20px;
-                        padding-right: 20px
+                        padding-right: 20px;
+                        background: none;
                     }
                 `}</style>
             </div>

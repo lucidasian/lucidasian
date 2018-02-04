@@ -10,6 +10,10 @@ app.prepare()
     .then(() => {
         const server = express()
 
+        server.get('/auth/:provider', function (req, res) {
+            res.redirect(`http://${req.hostname}:${config.serverPort}/auth/${req.params.provider}`)
+        })
+
         server.get('*', (req, res) => {
             return handle(req, res)
         })
