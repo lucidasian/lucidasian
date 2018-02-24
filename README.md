@@ -3,6 +3,29 @@ lucidasian web app project
 
 # API Reference
 
+## Return Format
+Each request will return the result upon the case
+### Successful Case
+| Field | Type | value | 
+|-------|------|-------------|
+| success | Bool | true |
+### Successful with return content
+| Field | Type | value | 
+|-------|------|-------------|
+| success | Bool | true |
+| data | Object/Array | #upon the request# |
+### Failure Case
+| Field | Type | value | 
+|-------|------|-------------|
+| success | Bool | false |
+| errCode | Integer | #3 digits integer# |
+
+## Error Code Description
+| Group | errCode | Description |
+|------------|-----|-----------------------|
+| Permission | 100 | Admin role is required |
+| Content | 200 | There is not content on the database |
+
 ## Authenticate
 Authenticate is need to access via RESTful API GET method, there are three choice of authenticate options.
 
@@ -13,74 +36,17 @@ Authenticate is need to access via RESTful API GET method, there are three choic
 
 If the authenticate is successful user information will automatically store in our database.
 
-## GraphQL Schema
-```
-type Article {
-    id: ID
-    title: String!
-    content: String
-    publish: Boolean
-    positions: ArticlePosition
-    tags: [String]
-    createdBy: String
-    updatedBy: String
-    createdAt: String
-    updatedAt: String 
-  }
-  type Articles {
-    cover: [Article]
-    highlights: [Article]
-    trips: [Article]
-  }
-  type ArticlePosition {
-    cover: Boolean!
-    highlights: Boolean!
-    trips: Boolean!
-  }
-  type LoginLog {
-    uuid: String
-    token: String
-    ipAddress: String
-    loginAt: String
-  }
-  type UserRole {
-    admin: Boolean!
-    member: Boolean!
-    staff: Boolean!
-  }
-  type User {
-    socialID: String!
-    socialType: String!
-    roles: UserRole
-    displayName: String
-    loginLogs: [LoginLog]
-  }
-  type Users {
-    admin: [User]
-    member: [User]
-    staff: [User]
-  }
-  type Query {
-    articles: Articles
-    loginUser: User!
-    user(socialID: String!, socialType: String!): User!
-    users: Users
-  }
-  type Mutation {
-    addStaffRole(socialID: String!, socialType: String!): User
-    removeStaffRole(socialID: String!, socialType: String!): User
-    createArticle(title: String!, content: String!, publish: Boolean = false, positions: [String], tags: [String]): Article
-    modifyArticle(articleID: ID!, title: String!, content: String!, publish: Boolean = false, positions: [String], tags: [String]): Article
-  }
-```
-Exclamation mark(!) represents the require field.
+## User
 
-### Admin role is required for these field
-1. Query > Users
-2. Mutation > addStaffRole
-3. Mutation > removeStaffRole
-4. User > loginLogs
+### Get a user login logs
+    endpoint: /api/user/login/log/:socialType/:socialID
+    port: 10101
+    possible errCode: 100, 200
+| Field | Type | Description |
+|-------|------|-------------|
+| uuid | String | Unique Identify which embeded on client browser |
+| token | String | Access token provides by authenticator |
+| ipAddress | String | |
+| loginAt | Datetime | |
 
-### Staff role is required for these field
-1. Mutation > createArticle
-2. Mutation > modifyArticle
+Object structure on data field
