@@ -39,12 +39,10 @@ export default ({ app, DB }) => {
   })
   
   passport.serializeUser(function(user, done) {
-    console.log('s', user)
     done(null, user)
   })
   
   passport.deserializeUser(function(user, done) {
-    console.log('d', user)
     done(null, user)
   })
   
