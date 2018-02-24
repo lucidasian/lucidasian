@@ -24,8 +24,16 @@ userSchema.index({ socialID: 1, socialType: -1 }, { unique: true })
 // using the schema to make a collection in our DB
 export const User = mongoose.model('User', userSchema)
 
-export const getAllUser = async() => {
+export const getAllUser = async () => {
   const users = await User.find()
+  return users
+}
+
+export const getAllUserByRole = async (role) => {
+  role = `roles.${role}`
+  const users = await User.find({
+    [role]: true
+  })
   return users
 }
 
@@ -46,7 +54,7 @@ export const getUser = async (socialID, socialType) => {
   return user
 }
 
-export const addStaffRole = async (socialID, socialType) => {
+export const promoteStaffRole = async (socialID, socialType) => {
   const updatedUser = await User.findOneAndUpdate({
     // conditions
     socialID: socialID,
@@ -66,7 +74,7 @@ export const addStaffRole = async (socialID, socialType) => {
   return updatedUser
 }
 
-export const removeStaffRole = async (socialID, socialType) => {
+export const demoteStaffRole = async (socialID, socialType) => {
   // find the user then add staff role
   const updatedUser = await User.findOneAndUpdate({
     // conditions
