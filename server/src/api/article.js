@@ -2,7 +2,7 @@ export default ({ app, DB }) => {
   // Create an article
   app.post('/api/article/create', async (req, res, next) => {
     const caller = req.user
-
+    // console.log(req)
     if (caller && caller.roles.staff) {
       // creator from session
       const creatorID = caller.socialID,
@@ -17,7 +17,7 @@ export default ({ app, DB }) => {
           { creatorType, creatorID },
           { title, content, publish, positions, tags }
         )
-        console.log(newArticle)
+        
       } else {
         res.send({
           success: false,

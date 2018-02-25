@@ -7,8 +7,9 @@ import { setUUID } from './src/middleware.js'
 // import jwt from 'jsonwebtoken'
 import express from 'express'
 import session from 'express-session'
-import bodyParser from 'body-parser'
+// import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
+import passport from 'passport'
 import mongoose from 'mongoose'
 // import cors from 'cors'
 
@@ -21,8 +22,10 @@ import morgan from 'morgan'
 // import { apolloUploadExpress } from "apollo-upload-server";
 
 const app = express()
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
+// app.use(bodyParser.urlencoded({ extended: true }))
+// app.use(bodyParser.json())
+app.use(express.json())       // to support JSON-encoded bodies
+app.use(express.urlencoded())
 app.use(cookieParser(config.cookieSecret))
 app.use(session({
   secret: config.sessionSecret,
@@ -33,9 +36,21 @@ app.use(session({
 app.use(morgan('dev'))
 app.use(setUUID)
 
+app.use(passport.initialize())
+app.use(passport.session())
+
+passport.serializeUser(function(user, done) {
+  done(null, user)
+})
+
+passport.deserializeUser(function(user, done) {
+  done(null, user)
+})
+
 let _ = api({ 
   app: app,
-  DB: DB
+  DB: DB,
+  passport: passport
 })
 
 // app.use(verifyJwt)

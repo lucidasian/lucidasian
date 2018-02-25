@@ -1,14 +1,10 @@
 import config from '../../config'
-import passport from 'passport'
 import FacebookStrategy from 'passport-facebook'
 import GoogleStrategy from 'passport-google-oauth20'
 // import jwt from 'jsonwebtoken'
 import TwitterStrategy from 'passport-twitter'
 
-export default ({ app, DB }) => {
-  app.use(passport.initialize())
-  app.use(passport.session())
-
+export default ({ app, DB, passport }) => {
   app.get('/auth/signout', (req, res, next) => {
     // res.clearCookie('token')
     req.session.destroy()
@@ -36,14 +32,6 @@ export default ({ app, DB }) => {
   app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/login' }),
     function(req, res) {
     res.redirect(`http://${req.hostname}:${config.clientPort}`)
-  })
-  
-  passport.serializeUser(function(user, done) {
-    done(null, user)
-  })
-  
-  passport.deserializeUser(function(user, done) {
-    done(null, user)
   })
   
   passport.use(new FacebookStrategy({
