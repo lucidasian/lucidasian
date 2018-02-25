@@ -6,8 +6,8 @@ const articleSchema = new mongoose.Schema({
   publish: { type: Boolean, default: false},
   positions: { 
     cover: { type: Boolean, default: false },
-    highlights: { type: Boolean, default: false },
-    trips: { type: Boolean, default: false }
+    highlight: { type: Boolean, default: false },
+    trip: { type: Boolean, default: false }
   },
   tags: { type: [String], enum: ['culture', 'adventure'] },
   createdBy: { 
@@ -27,7 +27,7 @@ const articleSchema = new mongoose.Schema({
 // using the schema to make a collection in our DB
 export const Article = mongoose.model('Article', articleSchema)
 
-export const createArticle = async (
+export const create = async (
   { creatorType, creatorID },
   { title, content, publish, positions, tags }
 ) => {
@@ -38,8 +38,8 @@ export const createArticle = async (
   }, {
     // initial accumulator
     cover: false,
-    highlights: false,
-    trips: false
+    highlight: false,
+    trip: false
   })
 
   const newArticle = await new Article({
@@ -56,28 +56,36 @@ export const createArticle = async (
   return newArticle.save()
 }
 
-export const getAllArticle = async() => {
-  const articles = await Article.find()
+export const getByID = async (_id) => {
+  const article = await Article.findOne({
+    _id: _id,
+  })
+  return article
+}
+
+export const getAll = async() => {
+  const articles = await Article.find().sort('-createdAt')
   return articles
 }
 
-export const modifyArticle = async (user, articleID, title, content, publish, positions, tags) => {
-  if (positions) {
-    // cast from array to object
-    var positions = await positions.reduce((accumulator, currentElement) => {
-      accumulator[currentElement] = true
-      return accumulator
-    }, {
-      // initial object
-      cover: false,
-      highlights: false,
-      trips: false
-    })
-  }
+export const modify = async (
+  { updaterType, updaterID },
+  { id, title, content, publish, positions, tags }
+) => {
+  // cast from array to object
+  var positions = await positions.reduce((accumulator, currentElement) => {
+    accumulator[currentElement] = true
+    return accumulator
+  }, {
+    // initial accumulator
+    cover: false,
+    highlight: false,
+    trip: false
+  })
 
   const updatedArticle = await Article.findOneAndUpdate({
     // conditions
-    _id: articleID
+    _id: id
   }, {
     // update
     title: title,
@@ -86,8 +94,8 @@ export const modifyArticle = async (user, articleID, title, content, publish, po
     positions: positions,
     tags: tags,
     updatedBy: {
-      socialID: user.socialID,
-      socialType: user.socialType
+      socialID: updaterID,
+      socialType: updaterType
     },
     updatedAt: Date.now()
   }, {
