@@ -27,19 +27,20 @@ const articleSchema = new mongoose.Schema({
 // using the schema to make a collection in our DB
 export const Article = mongoose.model('Article', articleSchema)
 
-export const createArticle = async (user, title, content, publish, positions, tags) => {
-  if (positions) {
-    // cast from array to object
-    var positions = await positions.reduce((accumulator, currentElement) => {
-      accumulator[currentElement] = true
-      return accumulator
-    }, {
-      // initial object
-      cover: false,
-      highlights: false,
-      trips: false
-    })
-  }
+export const createArticle = async (
+  { creatorType, creatorID },
+  { title, content, publish, positions, tags }
+) => {
+  // cast from array to object
+  var positions = await positions.reduce((accumulator, currentElement) => {
+    accumulator[currentElement] = true
+    return accumulator
+  }, {
+    // initial accumulator
+    cover: false,
+    highlights: false,
+    trips: false
+  })
 
   const newArticle = await new Article({
     title: title,
@@ -48,8 +49,8 @@ export const createArticle = async (user, title, content, publish, positions, ta
     positions: positions,
     tags: tags,
     createdBy: {
-      socialID: user.socialID,
-      socialType: user.socialType
+      socialID: creatorID,
+      socialType: creatorType
     }
   })
   return newArticle.save()
