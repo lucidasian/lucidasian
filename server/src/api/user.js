@@ -1,6 +1,6 @@
 export default ({ app, DB }) => {
   // Get all user
-  app.get('/api/user/all', async (req, res, next) => {
+  app.get('/api/users', async (req, res, next) => {
     const caller = req.user
 
     if (caller && caller.roles.admin) {
@@ -29,7 +29,7 @@ export default ({ app, DB }) => {
   })
 
   // Get all user by role
-  app.get('/api/user/all/:role', async (req, res, next) => {
+  app.get('/api/users/:role', async (req, res, next) => {
     const caller = req.user
 
     if (caller && caller.roles.admin) {
@@ -58,7 +58,7 @@ export default ({ app, DB }) => {
   })
 
   // Get current user's login logs
-  app.get('/api/user/login/log/', async (req, res, next) => {
+  app.get('/api/user/me/loginlog', async (req, res, next) => {
     const caller = req.user
 
     if (caller && caller.roles.member) {
@@ -88,7 +88,7 @@ export default ({ app, DB }) => {
   })
 
   // Get current user basic info
-  app.get('/api/user/basic/me', (req, res, next) => {
+  app.get('/api/user/me/basic', (req, res, next) => {
     const caller = req.user
 
     if (caller && caller.roles.member) {
@@ -148,7 +148,7 @@ export default ({ app, DB }) => {
   })
 
   // Get all user basic info
-  app.get('/api/user/basic/all', async (req, res, next) => {
+  app.get('/api/users/basic', async (req, res, next) => {
     const caller = req.user
 
     if (caller && caller.roles.staff) {
@@ -188,7 +188,7 @@ export default ({ app, DB }) => {
   })
 
   //  Get a user's login logs
-  app.get('/api/user/login/log/:socialType/:socialID', async (req, res, next) => {
+  app.get('/api/user/loginlog/:socialType/:socialID', async (req, res, next) => {
     const caller = req.user
 
     if (caller && caller.roles.admin) {
@@ -218,7 +218,7 @@ export default ({ app, DB }) => {
   })
 
   // Get current user's roles
-  app.get('/api/user/roles', (req, res, next) => {
+  app.get('/api/user/me/roles', (req, res, next) => {
     const caller = req.user
 
     if (caller && caller.roles.member) {
