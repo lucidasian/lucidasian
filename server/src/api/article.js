@@ -146,8 +146,7 @@ export default ({ app, DB }) => {
   // Modify an article
   app.put('/api/article/modify', async (req, res, next) => {
     const caller = req.user
-    console.log(caller)
-    console.log(req.body)
+    
     if (caller && caller.roles.staff) {
       // creator from session
       const updaterID = caller.socialID,
@@ -157,8 +156,7 @@ export default ({ app, DB }) => {
             content = req.body.content,
             publish = req.body.publish,
             positions = req.body.positions,
-            tags = req.body.tags
-      console.log(id, title, content, publish, positions, tags)
+            tags = req.body.tags      
       if (id != undefined && title != undefined && content != undefined && publish != undefined && positions != undefined && tags != undefined) {
         const updatedArticle = await DB.Article.modify(
           { updaterType, updaterID },
