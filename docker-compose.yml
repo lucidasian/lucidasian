@@ -35,4 +35,4 @@ services:
       - ./client/pages/:/client/pages/
       - ./client/static/:/client/static/
     ports:
-      - "80:80"
+      - "80:11111"
