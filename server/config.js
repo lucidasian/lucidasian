@@ -11,7 +11,6 @@ export default {
     clientSecret: '62ShAiSLa-I2tYtYo7CwZNl6',
     callbackURL: 'http://localhost:10101/auth/google/callback'
   },
-  jwtSecret: 'my jwt secret',
   serverPort: 10101,
   sessionSecret: 'my sessions secret',
   twitter: {

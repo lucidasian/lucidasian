@@ -27,7 +27,7 @@ services:
     build: ./client
     container_name: client
     restart: always
-    command: npm start
+    command: npm run dev
     volumes:
       - ./client/config/config.js:/client/config/config.js
       - ./client/server.js:/client/server.js

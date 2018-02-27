@@ -1,16 +1,12 @@
-import config from '../config'
+import config from '../../config'
 import FacebookStrategy from 'passport-facebook'
 import GoogleStrategy from 'passport-google-oauth20'
-import jwt from 'jsonwebtoken'
-import passport from 'passport'
+// import jwt from 'jsonwebtoken'
 import TwitterStrategy from 'passport-twitter'
 
-export default ({ app, DB }) => {
-  app.use(passport.initialize())
-  app.use(passport.session())
-
+export default ({ app, DB, passport }) => {
   app.get('/auth/signout', (req, res, next) => {
-    res.clearCookie('token')
+    // res.clearCookie('token')
     req.session.destroy()
 
     res.redirect(`http://${req.hostname}:${config.clientPort}`)
@@ -23,51 +19,19 @@ export default ({ app, DB }) => {
 
   app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }),
     function(req, res) {
-      // Successful authentication, redirect home.
-      const token = jwt.sign({
-        socialID: req.user.socialID,
-        socialType: req.user.socialType
-      }, config.jwtSecret, {
-          expiresIn: '1d'
-      })
-      res.cookie('token', token)
       res.redirect(`http://${req.hostname}:${config.clientPort}`)
     }
   )
 
   app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }),
     function(req, res) {
-      // Successful authentication, redirect home.
-      const token = jwt.sign({
-        socialID: req.user.socialID,
-        socialType: req.user.socialType
-      }, config.jwtSecret, {
-        expiresIn: '1d'
-      })
-      res.cookie('token', token)
       res.redirect(`http://${req.hostname}:${config.clientPort}`)
     }
   )
 
   app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/login' }),
     function(req, res) {
-    // Successful authentication, redirect home.
-    const token = jwt.sign({
-      socialID: req.user.socialID,
-      socialType: req.user.socialType
-    }, config.jwtSecret, {
-      expiresIn: '1d'
-    })
-    res.cookie('token', token)
     res.redirect(`http://${req.hostname}:${config.clientPort}`)
-  })
-  
-  passport.serializeUser(function(user, done) {
-    done(null, user)
-  })
-  
-  passport.deserializeUser(function(user, done) {
-    done(null, user)
   })
   
   passport.use(new FacebookStrategy({
@@ -85,7 +49,6 @@ export default ({ app, DB }) => {
         req.cookies.UUID,
         req.header('x-forwarded-for') || req.connection.remoteAddress
       )
-
       return done(null, {
         socialID: user.socialID,
         socialType: user.socialType,
