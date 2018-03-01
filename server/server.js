@@ -5,6 +5,7 @@ import { setUUID } from './src/middleware.js'
 // import { schema } from'./graphql'
 
 // import jwt from 'jsonwebtoken'
+import cors from 'cors'
 import express from 'express'
 import session from 'express-session'
 // import bodyParser from 'body-parser'
@@ -22,6 +23,7 @@ import morgan from 'morgan'
 // import { apolloUploadExpress } from "apollo-upload-server";
 
 const app = express()
+app.use(cors())
 // app.use(bodyParser.urlencoded({ extended: true }))
 // app.use(bodyParser.json())
 app.use(express.json())       // to support JSON-encoded bodies
