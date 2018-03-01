@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
+import NavBar from '../components/navbar';
+
 
 class HomePage extends Component {
     render() {
-        return (<h1>Home</h1>)
+        return (<NavBar />)
     }
 }
 

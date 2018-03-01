@@ -41,9 +41,14 @@ export default class MyDocument extends Document {
         return (
             <html {...this.helmetHtmlAttrComponents}>
                 <Head>
+                    <meta charSet="utf-8" />
+                    <meta name="viewport" content="width=device-width, initial-scale=1" />
                     {this.helmetJsx}
                     {this.helmetHeadComponents}
-                    <link rel="stylesheet" href="/_next/static/style.css" />
+                    <link rel="stylesheet" href="/static/uikit/uikit.min.css" />
+                    <script src="/static/uikit/uikit.min.js"></script>
+                    <script src="/static/uikit/uikit-icons.min.js"></script>
+                    {/* <link rel="stylesheet" href="/_next/static/style.css" /> */}
                 </Head>
                 <body {...this.helmetBodyAttrComponents}>
                     <Main />

@@ -17,9 +17,13 @@
     "draft-js-inline-toolbar-plugin": "^2.0.1",
     "draft-js-plugins-editor": "^2.0.4",
     "express": "^4.16.2",
+    "isomorphic-unfetch": "^2.0.0",
     "next": "^5.0.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-helmet": "^5.2.0"
+  },
+  "devDependencies": {
+    "http-proxy-middleware": "^0.17.4"
   }
 }
