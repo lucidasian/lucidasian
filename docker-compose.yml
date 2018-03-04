@@ -12,6 +12,7 @@ services:
       - ./server/model:/server/model
       - ./server/graphql:/server/graphql
       - ./server/src:/server/src
+      - ./server/uploads:/server/uploads
     ports:
       - "10101:10101"
     links:

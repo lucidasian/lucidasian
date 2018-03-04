@@ -23,7 +23,11 @@ import morgan from 'morgan'
 // import { apolloUploadExpress } from "apollo-upload-server";
 
 const app = express()
-app.use(cors())
+
+app.use(cors({
+  origin: '*',
+  credentials: true
+}))
 // app.use(bodyParser.urlencoded({ extended: true }))
 // app.use(bodyParser.json())
 app.use(express.json())       // to support JSON-encoded bodies

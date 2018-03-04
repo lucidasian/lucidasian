@@ -1,6 +1,5 @@
 server/data
-
-# Configs
+server/uploads
 server/config.js
 
 # Logs
