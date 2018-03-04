@@ -29,6 +29,7 @@ Each request will return the result upon the case
 | Content | 200 | There is not content on the database |
 | Client Error | 300 | Some required input parameter is incorrect or missing |
 | | 301 | Some required input parameter is missing |
+| | 302 | File extension need to be image (jpg, jpeg, png, gif) |
 | Server Error | 400 | Server can't process or something went wrong please try again |
 
 ## Authenticate
@@ -132,6 +133,32 @@ If the authenticate is successful user information will automatically store in o
 | Field | Type | Description |
 |-------|------|-------------|
 | id | String | Article ID |
+
+## Upload
+
+### Get Image
+    method: GET
+    endpoint: /api/image/:filename
+    port: 10101
+    caller role: anyone
+    posible errCode: None
+#### Return the image if any 
+
+### Upload image
+    method: POST
+    endpoint: /api/image/upload
+    port: 10101
+    caller role: staff
+    posible errCode: 101, 302
+#### Input structure
+| Field | Type | Sample | Description | Required? |
+|-------|------|--------|-------------|-------------|
+| image | File | | Image file to upload | Yes |
+
+#### Return structure (Object)
+| Field | Type | Description |
+|-------|------|-------------|
+| filename | String | filename use to get image in the future |
 
 ## User
 
